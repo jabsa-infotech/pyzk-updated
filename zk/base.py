@@ -1020,7 +1020,7 @@ class ZK(object):
         """
         if self.tcp and user_id:
             command = const._CMD_DEL_USER_TEMP
-            command_string = pack('<24sB', str(user_id), temp_id)
+            command_string = pack('<24sB', str(user_id).encode(), temp_id)
             cmd_response = self.__send_command(command, command_string)
             if cmd_response.get('status'):
                 return True
