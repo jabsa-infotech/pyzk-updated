@@ -93,7 +93,7 @@ class ZK_helper(object):
         """
 
         self.client = socket(AF_INET, SOCK_STREAM)
-        self.client.settimeout(10)
+        self.client.settimeout(None)
         res = self.client.connect_ex(self.address)
         self.client.close()
         return res
@@ -103,7 +103,7 @@ class ZK_helper(object):
         test UDP connection
         """
         self.client = socket(AF_INET, SOCK_DGRAM)
-        self.client.settimeout(10)
+        self.client.settimeout(None)
 
 
 class ZK(object):
@@ -1243,7 +1243,7 @@ class ZK(object):
         cmd_response = self.__send_command(command, command_string)
         if not cmd_response.get('status'):
             raise ZKErrorResponse("Cant Enroll user #%i [%i]" %(uid, temp_id))
-        self.__sock.settimeout(60)
+        self.__sock.settimeout(self.__timeout)
         attempts = 3
         while attempts:
             if self.verbose: print("A:%i esperando primer regevent" % attempts)
