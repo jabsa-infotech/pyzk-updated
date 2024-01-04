@@ -915,7 +915,7 @@ class ZK(object):
         else:
             name_pad = name.encode(self.encoding, errors='ignore').ljust(24, b'\x00')[:24]
             card_str = pack('<I', int(card))[:4]
-            command_string = pack('HB8s24s4sB7sx24s', uid, privilege, password.encode(self.encoding, errors='ignore'), name_pad, card_str, group_id.encode(), user_id.encode())
+            command_string = pack('HB8s24s4sB7sx24s', uid, privilege, password.encode(self.encoding, errors='ignore'), name_pad, card_str, group_id, str(group_id).encode(), user_id.encode())
         response_size = 1024 #TODO check response?
         cmd_response = self.__send_command(command, command_string, response_size)
         if self.verbose: print("Response: %s" % cmd_response)
