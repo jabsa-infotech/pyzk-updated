@@ -238,6 +238,7 @@ class ZK(object):
         """
         send command to the terminal
         """
+        if self.verbose: print(f"send command method")
         if command not in [const.CMD_CONNECT, const.CMD_AUTH] and not self.is_connect:
             raise ZKErrorConnection("instance are not connected.")
 
@@ -257,8 +258,12 @@ class ZK(object):
                 self.__data_recv = self.__sock.recv(response_size)
                 self.__header = unpack('<4H', self.__data_recv[:8])
         except Exception as e:
+            if self.verbose: print(f"send command error {e}")
             raise ZKNetworkError(str(e))
 
+        if self.verbose: 
+            print(f"command response header: {self.__header}")
+            print(f"command response data: {self.__data_recv}")
         self.__response = self.__header[0]
         self.__reply_id = self.__header[3]
         self.__data = self.__data_recv[8:]
