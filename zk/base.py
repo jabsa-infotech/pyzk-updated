@@ -1228,7 +1228,7 @@ class ZK(object):
         """
         command = const.CMD_STARTENROLL
         done = False
-        if  not user_id:
+        if not user_id:
             users = self.get_users()
             users = list(filter(lambda x: x.uid==uid, users))
             if len(users) >= 1:
@@ -1241,6 +1241,9 @@ class ZK(object):
             command_string = pack('<Ib', int(user_id), temp_id)
         self.cancel_capture()
         cmd_response = self.__send_command(command, command_string)
+        if self.verbose: 
+            print(f"command_string: {command_string}")
+            print(cmd_response)
         if not cmd_response.get('status'):
             raise ZKErrorResponse("Cant Enroll user #%i [%i]" %(uid, temp_id))
         self.__sock.settimeout(self.__timeout)
